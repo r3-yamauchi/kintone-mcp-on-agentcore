@@ -10,11 +10,12 @@ Amazon Bedrock AgentCore Gatewayを使用してkintone操作を可能にする�
 
 ### 主な機能
 
-- **kintone連携**: 7つの主要なkintone操作ツール
-- **AWS Lambda**: サーバーレス実行環境
+- **kintone連携**: 5つの主要なkintone操作ツール
+- **AWS Lambda**: サーバーレス実行環境（Node.js 18.x）
 - **AgentCore Gateway**: Amazon Bedrock AgentCore Gateway経由でのMCPアクセス
 - **Cognito認証**: JWT認証による安全なアクセス制御
 - **MCP準拠**: JSON-RPC 2.0プロトコル完全対応
+- **TypeScript**: 型安全性とコード品質の確保
 
 ## アーキテクチャ
 
@@ -46,6 +47,7 @@ kintone
 ├── 実行コマンド履歴.md            # 構築手順テンプレート
 ├── bedrock-agentcore-policy.json # AWS IAMポリシー
 ├── pyproject.toml              # Python プロジェクト設定
+├── LICENSE                     # Apache 2.0ライセンス
 └── README.md                   # このファイル
 ```
 
@@ -56,8 +58,8 @@ kintone
 3. **kintone-get-records**: レコード取得
 4. **kintone-get-form-fields**: フォームフィールド取得
 5. **kintone-add-records**: レコード追加
-6. **kintone-update-records**: レコード更新
-7. **kintone-delete-records**: レコード削除
+
+**注意**: `kintone-update-records` と `kintone-delete-records` は現在実装されていません。
 
 ## AWS リソース情報
 
@@ -163,11 +165,6 @@ KINTONE_PASSWORD=your-password
 
 ## 技術仕様
 
-### AWS公式仕様準拠
-- Amazon Bedrock AgentCore Gateway 公式ドキュメントに基づく実装
-- MCP JSON-RPC 2.0 プロトコル完全対応
-- AWS Lambda Context からのツール名取得に対応
-
 ### 対応認証方式
 - **Cognito JWT認証**: Gateway レベルでの認証
 - **kintone認証**: ユーザー名・パスワード認証
@@ -180,7 +177,7 @@ KINTONE_PASSWORD=your-password
 
 ## セキュリティ
 
-- **HTTPS必須**: 全通信はHTTLS暗号化
+- **HTTPS必須**: 全通信はHTTPS暗号化
 - **JWT認証**: Cognito認証による安全なアクセス制御
 - **IAM権限**: 最小権限の原則に基づくLambda実行権限
 - **VPC**: 必要に応じてVPC内でのLambda実行
