@@ -1,0 +1,65 @@
+# Python関連ファイル
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# 仮想環境
+.venv
+venv/
+
+# Node.js関連ファイル
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScriptビルド出力
+MyKintone/dist/
+
+# Lambda関数パッケージ（zipファイル）
+*.zip
+
+# テスト用ファイル
+**/test-*.json
+**/response-*.json
+**/target-payload.json
+
+# 環境変数ファイル
+.env
+.env.local
+.env.production
+
+# IDEファイル
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# ログファイル
+*.log
+logs/
+
+# 一時ファイル
+*.tmp
+*.temp
+
+# AWS認証情報（誤ってコミットしないよう）
+.aws/
+aws-credentials.json
+
+# バックアップファイル
+*.bak
+*.backup
+
+# 機密情報を含むファイル
+misc/

@@ -1,0 +1,145 @@
+[
+  {
+    "name": "kintone-get-records",
+    "description": "kintoneアプリからレコードを取得します。検索条件、フィールド指定、ソート、ページネーションに対応しています。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "app": {
+          "type": "string",
+          "description": "アプリID（数値を文字列として指定）"
+        },
+        "query": {
+          "type": "string",
+          "description": "検索クエリ（kintone REST API形式）。例: '作成日時 > \"2024-01-01T00:00:00Z\"'"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "取得するフィールドのコード配列。指定しない場合は全フィールドを取得"
+        },
+        "totalCount": {
+          "type": "boolean",
+          "description": "総件数を取得するかどうか",
+          "default": true
+        }
+      },
+      "required": ["app"]
+    }
+  },
+  {
+    "name": "kintone-get-app",
+    "description": "指定したkintoneアプリの詳細情報を取得します。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "アプリID"
+        }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "kintone-get-apps",
+    "description": "アクセス可能なkintoneアプリの一覧を取得します。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "description": "パラメータは不要です"
+    }
+  },
+  {
+    "name": "kintone-add-records",
+    "description": "kintoneアプリに新しいレコードを追加します。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "app": {
+          "type": "string",
+          "description": "アプリID"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "description": "追加するレコードの配列。各レコードはフィールドコードをキーとするオブジェクト"
+        }
+      },
+      "required": ["app", "records"]
+    }
+  },
+  {
+    "name": "kintone-get-form-fields",
+    "description": "kintoneアプリのフォームフィールド設定を取得します。利用可能なフィールドとその型を確認できます。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "アプリID"
+        }
+      },
+      "required": ["id"]
+    }
+  },
+  {
+    "name": "kintone-update-records",
+    "description": "kintoneアプリの既存レコードを更新します。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "app": {
+          "type": "string",
+          "description": "アプリID"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "レコードID"
+              },
+              "record": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "更新するフィールドデータ"
+              }
+            },
+            "required": ["id", "record"]
+          },
+          "description": "更新するレコードの配列"
+        }
+      },
+      "required": ["app", "records"]
+    }
+  },
+  {
+    "name": "kintone-delete-records",
+    "description": "kintoneアプリからレコードを削除します。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "app": {
+          "type": "string",
+          "description": "アプリID"
+        },
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "削除するレコードのID配列"
+        }
+      },
+      "required": ["app", "ids"]
+    }
+  }
+]

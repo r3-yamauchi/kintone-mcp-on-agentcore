@@ -1,0 +1,344 @@
+openapi: 3.0.3
+info:
+  title: MyKintone Remote MCP Server API
+  description: kintone Remote MCP Server for Amazon Bedrock AgentCore Gateway
+  version: 1.0.0
+  contact:
+    name: MyKintone Support
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production server
+
+paths:
+  /kintone/records:
+    post:
+      summary: レコード取得
+      description: kintoneアプリからレコードを取得します
+      operationId: getRecords
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - app
+              properties:
+                app:
+                  type: string
+                  description: アプリID
+                query:
+                  type: string
+                  description: 検索クエリ（kintone REST API形式）
+                fields:
+                  type: array
+                  items:
+                    type: string
+                  description: 取得するフィールドのコード配列
+                totalCount:
+                  type: boolean
+                  description: 総件数を取得するか
+                  default: true
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordsResponse'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /kintone/app:
+    post:
+      summary: アプリ情報取得
+      description: kintoneアプリの詳細情報を取得します
+      operationId: getApp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: string
+                  description: アプリID
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppResponse'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /kintone/apps:
+    post:
+      summary: アプリ一覧取得
+      description: kintoneのアプリ一覧を取得します
+      operationId: getApps
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              description: パラメータ（空のオブジェクトまたは省略可能）
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppsResponse'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /kintone/records/add:
+    post:
+      summary: レコード追加
+      description: kintoneアプリにレコードを追加します
+      operationId: addRecords
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - app
+                - records
+              properties:
+                app:
+                  type: string
+                  description: アプリID
+                records:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: true
+                  description: 追加するレコードの配列
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddRecordsResponse'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /kintone/form-fields:
+    post:
+      summary: フォームフィールド取得
+      description: kintoneアプリのフォームフィールド情報を取得します
+      operationId: getFormFields
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: string
+                  description: アプリID
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormFieldsResponse'
+        '400':
+          description: リクエストエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    RecordsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: 処理成功フラグ
+        data:
+          type: object
+          properties:
+            records:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+              description: レコード配列
+            totalCount:
+              type: string
+              description: 総件数
+
+    AppResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: 処理成功フラグ
+        data:
+          type: object
+          properties:
+            appId:
+              type: string
+              description: アプリID
+            code:
+              type: string
+              description: アプリコード
+            name:
+              type: string
+              description: アプリ名
+            description:
+              type: string
+              description: アプリの説明
+            spaceId:
+              type: string
+              description: スペースID
+            threadId:
+              type: string
+              description: スレッドID
+
+    AppsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: 処理成功フラグ
+        data:
+          type: object
+          properties:
+            apps:
+              type: array
+              items:
+                type: object
+                properties:
+                  appId:
+                    type: string
+                    description: アプリID
+                  code:
+                    type: string
+                    description: アプリコード
+                  name:
+                    type: string
+                    description: アプリ名
+                  description:
+                    type: string
+                    description: アプリの説明
+              description: アプリ配列
+
+    AddRecordsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: 処理成功フラグ
+        data:
+          type: object
+          properties:
+            ids:
+              type: array
+              items:
+                type: string
+              description: 追加されたレコードのID配列
+            revisions:
+              type: array
+              items:
+                type: string
+              description: 追加されたレコードのリビジョン配列
+
+    FormFieldsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: 処理成功フラグ
+        data:
+          type: object
+          properties:
+            properties:
+              type: object
+              additionalProperties: true
+              description: フィールド設定情報
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: 処理成功フラグ（常にfalse）
+        error:
+          type: string
+          description: エラーメッセージ
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+security:
+  - ApiKeyAuth: []

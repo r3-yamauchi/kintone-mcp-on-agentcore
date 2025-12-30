@@ -1,0 +1,39 @@
+[project]
+name = "mykintone-remote-mcp-server"
+version = "1.0.0"
+description = "Amazon Bedrock AgentCore Gateway経由でkintone操作を提供するリモートMCPサーバー"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    {name = "r3-yamauchi"}
+]
+license = {text = "Apache-2.0"}
+dependencies = [
+    "bedrock-agentcore-starter-toolkit>=0.2.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true

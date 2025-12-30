@@ -1,0 +1,31 @@
+{
+  "name": "mykintone-remote-mcp-server",
+  "version": "1.0.0",
+  "description": "kintone Remote MCP Server for Amazon Bedrock AgentCore Gateway",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "package": "zip -r mykintone-lambda-updated.zip dist/ node_modules/ package.json",
+    "start": "node dist/index.js",
+    "dev": "tsx --watch src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["kintone", "mcp", "aws", "lambda", "agentcore"],
+  "author": "r3-yamauchi",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@kintone/rest-api-client": "^6.1.0",
+    "aws-lambda": "^1.0.7",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.145",
+    "@types/node": "^22.19.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">= 18"
+  }
+}
